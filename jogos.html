@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Quebra-Cabeças — Bora Voar</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa, #e3f2fd);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      color: #2c3e50;
+    }
+    .back-btn {
+      background: #7f8c8d;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 24px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: background 0.2s;
+    }
+    .back-btn:hover { background: #95a5a6; }
+
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+      max-width: 600px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      color: #1a5276;
+      margin-bottom: 8px;
+    }
+    .intro {
+      font-size: 1.05rem;
+      color: #5d6d7e;
+      line-height: 1.5;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      width: 100%;
+      max-width: 500px;
+    }
+    .game-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    .game-card:hover {
+      transform: translateY(-5px);
+    }
+    .mini-img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      background: #f0f8ff;
+    }
+    .game-info {
+      padding: 16px;
+      text-align: center;
+    }
+    .game-info h3 {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+      color: #2c3e50;
+    }
+
+    .footer {
+      margin-top: auto;
+      padding: 20px;
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 0.9rem;
+    }
+
+    @media (min-width: 600px) {
+      .games-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="back-btn" onclick="location.href='index.html'">← Voltar</button>
+
+  <div class="header">
+    <h1>🧩 Quebra-Cabeças com Significado</h1>
+    <p class="intro">Cada imagem é uma metáfora. Recomponha e reflita.</p>
+  </div>
+
+  <div class="games-grid">
+    <div class="game-card" onclick="location.href='jogo1.html'">
+      <img src="1.png" class="mini-img" alt="Amigos Têm Asas">
+      <div class="game-info">
+        <h3>🕊️ Amigos Têm Asas</h3>
+      </div>
+    </div>
+    <div class="game-card" onclick="location.href='jogo2.html'">
+      <img src="2.png" class="mini-img" alt="Equipe Tem Asas">
+      <div class="game-info">
+        <h3>🤝 Equipe Tem Asas</h3>
+      </div>
+    </div>
+    <div class="game-card" onclick="location.href='jogo3.html'">
+      <img src="3.png" class="mini-img" alt="Família Tem Asas">
+      <div class="game-info">
+        <h3>👨‍👩‍👧‍👦 Família Tem Asas</h3>
+      </div>
+    </div>
+    <div class="game-card" onclick="location.href='jogo4.html'">
+      <img src="4.png" class="mini-img" alt="Profissão Tem Asas">
+      <div class="game-info">
+        <h3>💼 Profissão Tem Asas</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Bora Voar • CIEP 183 João Vitta</p>
+  </div>
+
+</body>
+</html>

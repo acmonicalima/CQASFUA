@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Vídeo — Bora Voar</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: sans-serif;
+      background: #f8f9fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      color: #2c3e50;
+    }
+    .header {
+      width: 100%;
+      max-width: 800px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .back-btn {
+      background: #7f8c8d;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 24px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 20px;
+      transition: background 0.2s;
+    }
+    .back-btn:hover {
+      background: #95a5a6;
+    }
+    .video-container {
+      width: 100%;
+      max-width: 800px;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    video {
+      width: 100%;
+      display: block;
+      background: #000;
+    }
+    .note {
+      margin-top: 16px;
+      font-size: 0.95rem;
+      color: #7f8c8d;
+      text-align: center;
+      max-width: 800px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button class="back-btn" onclick="history.back()">← Voltar</button>
+  </div>
+
+  <div class="video-container">
+    <video controls playsinline>
+      <source src="video.mp4" type="video/mp4">
+      Seu navegador não suporta vídeos.
+    </video>
+  </div>
+
+  <p class="note">
+    💡 Dica: Toque no vídeo para dar play, pausar ou continuar. Use os controles nativos do player.
+  </p>
+
+  <script>
+    // Garante que o botão "Voltar" funcione mesmo se vier de outro lugar
+    document.querySelector('.back-btn').addEventListener('click', () => {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        location.href = 'index.html';
+      }
+    });
+  </script>
+</body>
+</html>

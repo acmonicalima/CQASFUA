@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Profissão Têm Asas</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #f8fdff);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      color: #2c3e50;
+      touch-action: manipulation;
+    }
+
+    .header {
+      text-align: center;
+      margin: 16px 0 8px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1a5276;
+      margin-bottom: 4px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #5d8aa8;
+      font-style: italic;
+    }
+
+    .timer {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #2980b9;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 10px 20px;
+      border-radius: 12px;
+      margin: 12px 0;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(41, 128, 185, 0.15);
+      min-width: 180px;
+      border: 1px solid #d6eaf8;
+    }
+
+    .timer.ending {
+      color: #e67e22;
+      animation: gentlePulse 1s infinite alternate;
+    }
+
+    @keyframes gentlePulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.03); }
+    }
+
+    .instructions {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #5d6d7e;
+      margin: 12px 0;
+      line-height: 1.4;
+      max-width: 90vw;
+    }
+
+    .puzzle-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 3px;
+      width: min(95vw, 800px);
+      aspect-ratio: 4 / 3;
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 4px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .slot {
+      background-color: #f0f8ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-radius: 4px;
+    }
+
+    .piece {
+      width: 100%;
+      height: 100%;
+      background-image: url('4.png');
+      background-size: 800px 600px;
+      cursor: pointer;
+      user-select: none;
+      border-radius: 4px;
+      transition: transform 0.18s ease, box-shadow 0.2s;
+    }
+
+    .piece:active {
+      transform: scale(0.97);
+      box-shadow: 0 2px 6px rgba(0, 150, 255, 0.3);
+    }
+
+    /* Posicionamento da imagem */
+    .piece[data-pos="0"]  { background-position: 0      0;       }
+    .piece[data-pos="1"]  { background-position: -200px 0;       }
+    .piece[data-pos="2"]  { background-position: -400px 0;       }
+    .piece[data-pos="3"]  { background-position: -600px 0;       }
+    .piece[data-pos="4"]  { background-position: 0      -200px;  }
+    .piece[data-pos="5"]  { background-position: -200px -200px;  }
+    .piece[data-pos="6"]  { background-position: -400px -200px;  }
+    .piece[data-pos="7"]  { background-position: -600px -200px;  }
+    .piece[data-pos="8"]  { background-position: 0      -400px;  }
+    .piece[data-pos="9"]  { background-position: -200px -400px;  }
+    .piece[data-pos="10"] { background-position: -400px -400px;  }
+    .piece[data-pos="11"] { background-position: -600px -400px;  }
+
+    .empty {
+      background: #e3f2fd;
+      border: 2px dashed #bbdefb;
+      border-radius: 4px;
+    }
+
+    #controls {
+      margin: 20px 0 12px;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    #play-btn {
+      padding: 16px 40px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #3498db, #1a5276);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+      transition: all 0.3s;
+    }
+
+    #play-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(52, 152, 219, 0.5);
+    }
+
+    #play-btn:active:not(:disabled) {
+      transform: scale(0.98) translateY(0);
+    }
+
+    #play-btn.in-flight {
+      pointer-events: none;
+      opacity: 0.85;
+      cursor: default;
+      transform: none !important;
+      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+    }
+
+    /* ✅ MENSAGEM SÓ APARECE AO GANHAR — e com destaque */
+    #message {
+      margin-top: 16px;
+      font-weight: bold;
+      text-align: center;
+      min-height: 36px;
+      font-size: 1.15rem;
+      padding: 0 10px;
+      line-height: 1.4;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    #message.show {
+      opacity: 1;
+    }
+
+    #message.success {
+      color: #27ae60;
+    }
+
+    #message.warning {
+      color: #e67e22;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.6rem; }
+      .timer { font-size: 1.7rem; }
+      .subtitle { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🕊️ Profissão Têm Asas</h1>
+    <div class="subtitle">— e voam mais alto juntos</div>
+    <button style="background:#7f8c8d;color:white;border:none;border-radius:50px;padding:8px 20px;font-size:0.95rem;cursor:pointer;margin:12px 0 16px;" onclick="location.href='index.html'">Voltar</button>
+  </div>
+
+  <div class="timer" id="timer">08:00</div>
+
+  <p class="instructions">
+    Toque em uma peça ao lado do espaço vazio para ajudar a imagem a se recompor.<br>
+    <strong>Tempo de voar juntos: 8 minutos</strong>
+  </p>
+
+  <div class="puzzle-container" id="puzzle"></div>
+
+  <div id="controls">
+    <button id="play-btn">▶️ Começar a voar</button>
+  </div>
+
+  <div id="message"></div>
+
+  <script>
+    const COLS = 4;
+    const ROWS = 3;
+    const PIECES = COLS * ROWS;
+    const TOTAL_TIME = 8 * 60;
+
+    let board = [];
+    let emptyIndex = PIECES - 1;
+    let timer = null;
+    let timeLeft = TOTAL_TIME;
+
+    const puzzleEl = document.getElementById('puzzle');
+    const timerEl = document.getElementById('timer');
+    const playBtn = document.getElementById('play-btn');
+    const messageEl = document.getElementById('message');
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const secs = (seconds % 60).toString().padStart(2, '0');
+      return `${mins}:${secs}`;
+    }
+
+    function updateTimer() {
+      timerEl.textContent = formatTime(timeLeft);
+      timerEl.classList.toggle('ending', timeLeft <= 15);
+    }
+
+    function startCountdown() {
+      if (timer) clearInterval(timer);
+      timeLeft = TOTAL_TIME;
+      updateTimer();
+
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          timer = null;
+          showMessage("O tempo suave terminou… Tente um novo voo! 🕊️", "warning");
+          enablePlayButton("🕊️ Novo voo");
+        }
+      }, 1000);
+    }
+
+    function showMessage(text, type = "") {
+      messageEl.textContent = text;
+      messageEl.className = `show ${type}`;
+    }
+
+    function clearMessage() {
+      messageEl.textContent = "";
+      messageEl.className = ""; // remove .show → some suavemente
+    }
+
+    function enablePlayButton(text) {
+      playBtn.textContent = text;
+      playBtn.disabled = false;
+      playBtn.classList.remove('in-flight');
+    }
+
+    function disablePlayButton(text) {
+      playBtn.textContent = text;
+      playBtn.disabled = true;
+      playBtn.classList.add('in-flight');
+    }
+
+    function initBoard() {
+      board = Array.from({ length: PIECES - 1 }, (_, i) => i);
+      board.push(null);
+      emptyIndex = PIECES - 1;
+    }
+
+    function renderBoard() {
+      puzzleEl.innerHTML = '';
+      for (let i = 0; i < PIECES; i++) {
+        const slot = document.createElement('div');
+        slot.className = 'slot';
+        if (board[i] !== null) {
+          const piece = document.createElement('div');
+          piece.className = 'piece';
+          piece.dataset.pos = board[i];
+          piece.dataset.index = i;
+          piece.addEventListener('click', handlePieceClick);
+          piece.addEventListener('touchstart', e => {
+            e.preventDefault();
+            handlePieceClick.call(piece, e);
+          });
+          slot.appendChild(piece);
+        } else {
+          slot.classList.add('empty');
+        }
+        puzzleEl.appendChild(slot);
+      }
+    }
+
+    function handlePieceClick() {
+      if (!timer) return;
+
+      const pieceIndex = parseInt(this.dataset.index);
+      if (isAdjacent(pieceIndex, emptyIndex)) {
+        movePiece(pieceIndex);
+      }
+    }
+
+    function isAdjacent(i, j) {
+      const rowI = Math.floor(i / COLS);
+      const colI = i % COLS;
+      const rowJ = Math.floor(j / COLS);
+      const colJ = j % COLS;
+      const rowDiff = Math.abs(rowI - rowJ);
+      const colDiff = Math.abs(colI - colJ);
+      return (rowDiff === 1 && colDiff === 0) || (rowDiff === 0 && colDiff === 1);
+    }
+
+    function movePiece(pieceIndex) {
+      [board[pieceIndex], board[emptyIndex]] = [board[emptyIndex], board[pieceIndex]];
+      emptyIndex = pieceIndex;
+      renderBoard();
+      checkWin();
+    }
+
+    function shufflePuzzle() {
+      initBoard();
+      for (let step = 0; step < 100; step++) {
+        const validMoves = [];
+        for (let i = 0; i < PIECES; i++) {
+          if (board[i] !== null && isAdjacent(i, emptyIndex)) {
+            validMoves.push(i);
+          }
+        }
+        if (validMoves.length > 0) {
+          const rand = validMoves[Math.floor(Math.random() * validMoves.length)];
+          movePiece(rand);
+        }
+      }
+    }
+
+    function checkWin() {
+      let won = true;
+      for (let i = 0; i < PIECES - 1; i++) {
+        if (board[i] !== i) {
+          won = false;
+          break;
+        }
+      }
+      if (won && board[PIECES - 1] === null) {
+        clearInterval(timer);
+        timer = null;
+        // ✅ SÓ MOSTRA MENSAGEM OTIMISTA SE GANHAR
+        showMessage("Quem ama o que faz, nunca trabalha — só voa.🌤️", "success");
+        enablePlayButton("🕊️ Novo voo");
+      }
+    }
+
+    playBtn.addEventListener('click', () => {
+      // 🔒 BLOQUEIA O BOTÃO IMEDIATAMENTE AO CLICAR
+      disablePlayButton("🕊️ Em voo...");
+      clearMessage(); // ✅ Limpa qualquer mensagem anterior
+
+      // Embaralha e inicia após breve delay (pra feedback visual)
+      setTimeout(() => {
+        shufflePuzzle();
+        renderBoard();
+        startCountdown();
+      }, 100);
+    });
+
+    // Inicializa
+    initBoard();
+    renderBoard();
+    updateTimer();
+  </script>
+</body>
+</html>

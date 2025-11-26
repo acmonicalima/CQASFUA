@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Bora Voar</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #f8fdff);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      color: #2c3e50;
+    }
+    .topo-img {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      margin-bottom: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    #app-title {
+      font-size: 2.0rem;
+      font-weight: 700;
+      color: #1a5276;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: #5d8aa8;
+      font-style: italic;
+    }
+    .section {
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 1.2rem;
+      color: #2c3e50;
+      margin-bottom: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .games {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    /* ✅ BOTÕES COLORIDOS — CADA UM COM SUA COR DE EMOÇÃO */
+    .btn-video       { background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; }
+    .btn-musica      { background: linear-gradient(135deg, #9b59b6, #8e44ad); color: white; border: none; }
+    .btn-seeduc      { background: linear-gradient(135deg, #16a085, #138d75); color: white; border: none; }
+    .btn-conectta    { background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; }
+    .btn-motivame    { background: linear-gradient(135deg, #f39c12, #d35400); color: white; border: none; }
+    .btn-instagram   { background: linear-gradient(135deg, #e1306c, #c1276c); color: white; border: none; }
+    .btn-jogos       { background: linear-gradient(135deg, #2ecc71, #27ae60); color: white; border: none; }
+
+    .extra-btn, .game-btn {
+      padding: 16px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .extra-btn:hover, .game-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+    .extra-btn:active, .game-btn:active {
+      transform: scale(0.98);
+    }
+
+    .footer {
+      margin-top: auto;
+      padding: 20px;
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 0.95rem;
+      width: 100%;
+    }
+    .signature {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+    }
+    .close-circle {
+      width: 22px;
+      height: 22px;
+      background: #e74c3c;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    @media (min-width: 600px) {
+      .games { grid-template-columns: 1fr 1fr; gap: 20px; }
+    }
+    /* ✅ CORES DOS NOVOS BOTÕES */
+.btn-selfie { 
+  background: #f8f9fa; /* cinza claro */
+  color: #495057;
+  border: 2px solid #dee2e6;
+}
+.btn-selfie:hover {
+  background: #e9ecef;
+  border-color: #ced4da;
+}
+
+.btn-instagram { 
+  background: linear-gradient(135deg, #e1306c, #c1276c); 
+  color: white; 
+  border: none; 
+}
+
+.btn-jogos { 
+  background: linear-gradient(135deg, #2ecc71, #27ae60); 
+  color: white; 
+  border: none; 
+  width: 100%;
+  max-width: 100%;
+}
+  </style>
+</head>
+<body>
+
+  <!-- 🔝 IMAGEM NO TOPO -->
+  <img src="minicapa.png" alt="Imagem temática" class="topo-img">
+
+  <!-- 🎯 TÍTULO -->
+  <div class="header">
+    <h1 id="app-title">✨ Bora Voar ✨</h1>
+    <p class="subtitle">— Escolha seu voo</p>
+  </div>
+
+  <!-- ➕ SEÇÃO: ACESSO RÁPIDO -->
+<div class="section">
+  <div class="section-title">🎧 Acesso Rápido</div>
+  <div class="games">
+    <button class="extra-btn btn-video" onclick="location.href='video.html'">
+      ▶️ Vídeo
+    </button>
+    <button class="extra-btn btn-musica" id="btn-musica">
+      🎧 Música
+    </button>
+    <button class="extra-btn btn-seeduc" onclick="window.open('https://www.rj.gov.br/web/seeduc', '_blank')">
+      🏫 SEEDUC-RJ
+    </button>
+    <button class="extra-btn btn-conectta" onclick="window.open('https://acmonicalima.github.io/conectta/', '_blank')">
+      💼 Conectta
+    </button>
+    <button class="extra-btn" onclick="window.open('https://online.fliphtml5.com/ltumz/svik/', '_blank')">
+      📖 Livro online
+    </button>
+      <!-- ✅ BOTÃO INSTAGRAM (rosa) -->
+    <button class="extra-btn btn-instagram" onclick="window.open('https://instagram.com/ciep183', '_blank')">
+      📸 Instagram
+    </button>
+  </div>
+
+  <!-- ✅ BOTÃO JOGAR (verde, abaixo de tudo, em linha única) -->
+  <div class="games" style="margin-top: 16px;">
+    <button class="game-btn btn-jogos" onclick="location.href='jogos.html'">
+      🧩 Jogar Quebra-Cabeças
+    </button>
+  </div>
+</div>
+
+  <!-- 🔚 RODAPÉ -->
+  <div class="footer">
+    <div class="signature">
+      <span class="close-circle">X</span>
+      <span>Mônica Lima</span>
+    </div>
+  </div>
+
+  <!-- ÁUDIO OCULTO -->
+  <audio id="musica-tema" src="musica.mp3"></audio>
+
+  <script>
+    // Música
+    const audio = document.getElementById('musica-tema');
+    const btnMusica = document.getElementById('btn-musica');
+    let musicaTocando = false;
+
+    btnMusica.addEventListener('click', () => {
+      if (musicaTocando) {
+        audio.pause();
+        btnMusica.innerHTML = '🎧 Música';
+        musicaTocando = false;
+      } else {
+        audio.play().then(() => {
+          btnMusica.innerHTML = '⏹️ Parar';
+          musicaTocando = true;
+        }).catch(e => {
+          alert('💡 Toque novamente para ouvir a música!');
+        });
+      }
+    });
+
+    audio.onended = () => {
+      btnMusica.innerHTML = '🎧 Música';
+      musicaTocando = false;
+    };
+  </script>
+</body>
+</html>
