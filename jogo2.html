@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Equipes Têm Asas</title>
+  <title>Equipe Tem Asas</title>
   <style>
     * {
       box-sizing: border-box;
@@ -21,6 +21,7 @@
       padding: 16px;
       color: #2c3e50;
       touch-action: manipulation;
+      overflow-x: hidden;
     }
 
     .header {
@@ -79,13 +80,12 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(3, 1fr);
-      gap: 3px;
-      width: min(95vw, 800px);
+      gap: 5px; /* aumentado para toque mais fácil */
+      width: min(92vw, 800px);
       aspect-ratio: 4 / 3;
-      max-width: 800px;
       margin: 0 auto;
       background: #ffffff;
-      padding: 4px;
+      padding: 6px;
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     }
@@ -103,7 +103,9 @@
       width: 100%;
       height: 100%;
       background-image: url('2.png');
-      background-size: 800px 600px;
+      background-repeat: no-repeat;
+      /* ✅ Imagem escalada proporcionalmente ao grid 4x3 */
+      background-size: calc(100% * 4) calc(100% * 3);
       cursor: pointer;
       user-select: none;
       border-radius: 4px;
@@ -115,19 +117,21 @@
       box-shadow: 0 2px 6px rgba(0, 150, 255, 0.3);
     }
 
-    /* Posicionamento da imagem */
-    .piece[data-pos="0"]  { background-position: 0      0;       }
-    .piece[data-pos="1"]  { background-position: -200px 0;       }
-    .piece[data-pos="2"]  { background-position: -400px 0;       }
-    .piece[data-pos="3"]  { background-position: -600px 0;       }
-    .piece[data-pos="4"]  { background-position: 0      -200px;  }
-    .piece[data-pos="5"]  { background-position: -200px -200px;  }
-    .piece[data-pos="6"]  { background-position: -400px -200px;  }
-    .piece[data-pos="7"]  { background-position: -600px -200px;  }
-    .piece[data-pos="8"]  { background-position: 0      -400px;  }
-    .piece[data-pos="9"]  { background-position: -200px -400px;  }
-    .piece[data-pos="10"] { background-position: -400px -400px;  }
-    .piece[data-pos="11"] { background-position: -600px -400px;  }
+    /* ✅ Posicionamento com PORCENTAGEM — responsivo! */
+    .piece[data-pos="0"]  { background-position: 0%      0%; }
+    .piece[data-pos="1"]  { background-position: 33.33%  0%; }
+    .piece[data-pos="2"]  { background-position: 66.66%  0%; }
+    .piece[data-pos="3"]  { background-position: 100%    0%; }
+
+    .piece[data-pos="4"]  { background-position: 0%      50%; }
+    .piece[data-pos="5"]  { background-position: 33.33%  50%; }
+    .piece[data-pos="6"]  { background-position: 66.66%  50%; }
+    .piece[data-pos="7"]  { background-position: 100%    50%; }
+
+    .piece[data-pos="8"]  { background-position: 0%      100%; }
+    .piece[data-pos="9"]  { background-position: 33.33%  100%; }
+    .piece[data-pos="10"] { background-position: 66.66%  100%; }
+    .piece[data-pos="11"] { background-position: 100%    100%; }
 
     .empty {
       background: #e3f2fd;
@@ -172,7 +176,6 @@
       box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
     }
 
-    /* ✅ MENSAGEM SÓ APARECE AO GANHAR — e com destaque */
     #message {
       margin-top: 16px;
       font-weight: bold;
@@ -197,25 +200,40 @@
       color: #e67e22;
     }
 
+    /* ✅ Ajustes extras para celular */
     @media (max-width: 480px) {
       h1 { font-size: 1.6rem; }
-      .timer { font-size: 1.7rem; }
-      .subtitle { font-size: 0.9rem; }
+      .timer { font-size: 1.8rem; }
+      .subtitle { font-size: 0.95rem; }
+      .instructions { font-size: 1rem; }
+      .puzzle-container {
+        gap: 6px;
+        padding: 8px;
+      }
+      #play-btn {
+        padding: 14px 36px;
+        font-size: 1.1rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1>🕊️ Equipe Têm Asas</h1>
-    <div class="subtitle">— e voam mais alto juntos</div>
-    <button style="background:#7f8c8d;color:white;border:none;border-radius:50px;padding:8px 20px;font-size:0.95rem;cursor:pointer;margin:12px 0 16px;" onclick="location.href='index.html'">Voltar</button>
+    <h1>🤝 Equipe Tem Asas</h1>
+    <div class="subtitle">— e constrói o voo coletivo</div>
+    <button 
+      style="background:#7f8c8d;color:white;border:none;border-radius:50px;padding:8px 20px;font-size:0.95rem;cursor:pointer;margin:12px 0 16px;"
+      onclick="location.href='index.html'"
+    >
+      ← Voltar
+    </button>
   </div>
 
   <div class="timer" id="timer">08:00</div>
 
   <p class="instructions">
     Toque em uma peça ao lado do espaço vazio para ajudar a imagem a se recompor.<br>
-    <strong>Tempo de voar juntos: 8 minutos</strong>
+    <strong>Tempo para construir juntos: 8 minutos</strong>
   </p>
 
   <div class="puzzle-container" id="puzzle"></div>
@@ -265,7 +283,7 @@
         if (timeLeft <= 0) {
           clearInterval(timer);
           timer = null;
-          showMessage("O tempo suave terminou… Tente um novo voo! 🕊️", "warning");
+          showMessage("O tempo suave terminou… Tente um novo voo coletivo! 🕊️", "warning");
           enablePlayButton("🕊️ Novo voo");
         }
       }, 1000);
@@ -278,7 +296,7 @@
 
     function clearMessage() {
       messageEl.textContent = "";
-      messageEl.className = ""; // remove .show → some suavemente
+      messageEl.className = "";
     }
 
     function enablePlayButton(text) {
@@ -375,18 +393,15 @@
       if (won && board[PIECES - 1] === null) {
         clearInterval(timer);
         timer = null;
-        // ✅ SÓ MOSTRA MENSAGEM OTIMISTA SE GANHAR
-        showMessage("Juntos, até o impossível ganha altura.🌤️", "success");
+        showMessage("Juntos, até o impossível ganha altura. ✨", "success");
         enablePlayButton("🕊️ Novo voo");
       }
     }
 
     playBtn.addEventListener('click', () => {
-      // 🔒 BLOQUEIA O BOTÃO IMEDIATAMENTE AO CLICAR
       disablePlayButton("🕊️ Em voo...");
-      clearMessage(); // ✅ Limpa qualquer mensagem anterior
+      clearMessage();
 
-      // Embaralha e inicia após breve delay (pra feedback visual)
       setTimeout(() => {
         shufflePuzzle();
         renderBoard();
@@ -394,7 +409,6 @@
       }, 100);
     });
 
-    // Inicializa
     initBoard();
     renderBoard();
     updateTimer();
