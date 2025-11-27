@@ -45,10 +45,11 @@
       overflow: hidden;
       box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     }
-    video {
+    iframe {
       width: 100%;
+      height: 450px;
+      border: none;
       display: block;
-      background: #000;
     }
     .note {
       margin-top: 16px;
@@ -65,18 +66,18 @@
   </div>
 
   <div class="video-container">
-    <video controls playsinline>
-      <source src="video.mp4" type="video/mp4">
-      Seu navegador não suporta vídeos.
-    </video>
+    <!-- AQUI ENTRA O SEU VÍDEO DO GOOGLE DRIVE -->
+    <iframe
+      src="https://drive.google.com/file/d/1HCXRUihRnqsAX9Aybm3bQlk7PtyipKL7/preview"
+      allow="autoplay">
+    </iframe>
   </div>
 
   <p class="note">
-    💡 Dica: Toque no vídeo para dar play, pausar ou continuar. Use os controles nativos do player.
+    💡 Dica: Toque no vídeo para dar play. Ele está sendo carregado direto do Google Drive.
   </p>
 
   <script>
-    // Garante que o botão "Voltar" funcione mesmo se vier de outro lugar
     document.querySelector('.back-btn').addEventListener('click', () => {
       if (window.history.length > 1) {
         window.history.back();
