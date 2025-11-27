@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>Profissão Têm Asas</title>
+  <title>Profissão Tem Asas</title>
   <style>
     * {
       box-sizing: border-box;
@@ -13,14 +13,15 @@
 
     body {
       font-family: 'Segoe UI', system-ui, sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #f8fdff);
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9); /* verde suave — crescimento, propósito */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 16px;
-      color: #2c3e50;
+      color: #2e7d32;
       touch-action: manipulation;
+      overflow-x: hidden;
     }
 
     .header {
@@ -31,33 +32,33 @@
     h1 {
       font-size: 1.8rem;
       font-weight: 700;
-      color: #1a5276;
+      color: #2e7d32;
       margin-bottom: 4px;
       letter-spacing: -0.5px;
     }
 
     .subtitle {
       font-size: 1rem;
-      color: #5d8aa8;
+      color: #558b2f;
       font-style: italic;
     }
 
     .timer {
       font-size: 2rem;
       font-weight: bold;
-      color: #2980b9;
+      color: #388e3c;
       background: rgba(255, 255, 255, 0.85);
       padding: 10px 20px;
       border-radius: 12px;
       margin: 12px 0;
       text-align: center;
-      box-shadow: 0 3px 10px rgba(41, 128, 185, 0.15);
+      box-shadow: 0 3px 10px rgba(46, 125, 50, 0.15);
       min-width: 180px;
-      border: 1px solid #d6eaf8;
+      border: 1px solid #a5d6a7;
     }
 
     .timer.ending {
-      color: #e67e22;
+      color: #ef6c00;
       animation: gentlePulse 1s infinite alternate;
     }
 
@@ -69,7 +70,7 @@
     .instructions {
       text-align: center;
       font-size: 0.95rem;
-      color: #5d6d7e;
+      color: #43a047;
       margin: 12px 0;
       line-height: 1.4;
       max-width: 90vw;
@@ -79,19 +80,18 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(3, 1fr);
-      gap: 3px;
-      width: min(95vw, 800px);
+      gap: 5px; /* ↑ espaço ideal para toque */
+      width: min(92vw, 800px);
       aspect-ratio: 4 / 3;
-      max-width: 800px;
       margin: 0 auto;
       background: #ffffff;
-      padding: 4px;
+      padding: 6px;
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     }
 
     .slot {
-      background-color: #f0f8ff;
+      background-color: #f1f8e9;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -103,7 +103,9 @@
       width: 100%;
       height: 100%;
       background-image: url('4.png');
-      background-size: 800px 600px;
+      background-repeat: no-repeat;
+      /* ✅ ESCALONAMENTO DINÂMICO — funciona em qualquer resolução */
+      background-size: calc(100% * 4) calc(100% * 3);
       cursor: pointer;
       user-select: none;
       border-radius: 4px;
@@ -112,26 +114,28 @@
 
     .piece:active {
       transform: scale(0.97);
-      box-shadow: 0 2px 6px rgba(0, 150, 255, 0.3);
+      box-shadow: 0 2px 6px rgba(46, 125, 50, 0.3);
     }
 
-    /* Posicionamento da imagem */
-    .piece[data-pos="0"]  { background-position: 0      0;       }
-    .piece[data-pos="1"]  { background-position: -200px 0;       }
-    .piece[data-pos="2"]  { background-position: -400px 0;       }
-    .piece[data-pos="3"]  { background-position: -600px 0;       }
-    .piece[data-pos="4"]  { background-position: 0      -200px;  }
-    .piece[data-pos="5"]  { background-position: -200px -200px;  }
-    .piece[data-pos="6"]  { background-position: -400px -200px;  }
-    .piece[data-pos="7"]  { background-position: -600px -200px;  }
-    .piece[data-pos="8"]  { background-position: 0      -400px;  }
-    .piece[data-pos="9"]  { background-position: -200px -400px;  }
-    .piece[data-pos="10"] { background-position: -400px -400px;  }
-    .piece[data-pos="11"] { background-position: -600px -400px;  }
+    /* ✅ POSICIONAMENTO EM PORCENTAGEM — responsivo total! */
+    .piece[data-pos="0"]  { background-position: 0%      0%; }
+    .piece[data-pos="1"]  { background-position: 33.33%  0%; }
+    .piece[data-pos="2"]  { background-position: 66.66%  0%; }
+    .piece[data-pos="3"]  { background-position: 100%    0%; }
+
+    .piece[data-pos="4"]  { background-position: 0%      50%; }
+    .piece[data-pos="5"]  { background-position: 33.33%  50%; }
+    .piece[data-pos="6"]  { background-position: 66.66%  50%; }
+    .piece[data-pos="7"]  { background-position: 100%    50%; }
+
+    .piece[data-pos="8"]  { background-position: 0%      100%; }
+    .piece[data-pos="9"]  { background-position: 33.33%  100%; }
+    .piece[data-pos="10"] { background-position: 66.66%  100%; }
+    .piece[data-pos="11"] { background-position: 100%    100%; }
 
     .empty {
-      background: #e3f2fd;
-      border: 2px dashed #bbdefb;
+      background: #c8e6c9;
+      border: 2px dashed #81c784;
       border-radius: 4px;
     }
 
@@ -148,16 +152,16 @@
       font-weight: bold;
       border: none;
       border-radius: 50px;
-      background: linear-gradient(135deg, #3498db, #1a5276);
+      background: linear-gradient(135deg, #43a047, #2e7d32);
       color: white;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+      box-shadow: 0 4px 12px rgba(67, 160, 71, 0.4);
       transition: all 0.3s;
     }
 
     #play-btn:hover:not(:disabled) {
       transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(52, 152, 219, 0.5);
+      box-shadow: 0 6px 16px rgba(67, 160, 71, 0.5);
     }
 
     #play-btn:active:not(:disabled) {
@@ -169,10 +173,9 @@
       opacity: 0.85;
       cursor: default;
       transform: none !important;
-      box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+      box-shadow: 0 2px 8px rgba(67, 160, 71, 0.2);
     }
 
-    /* ✅ MENSAGEM SÓ APARECE AO GANHAR — e com destaque */
     #message {
       margin-top: 16px;
       font-weight: bold;
@@ -190,32 +193,47 @@
     }
 
     #message.success {
-      color: #27ae60;
+      color: #2e7d32;
     }
 
     #message.warning {
-      color: #e67e22;
+      color: #ef6c00;
     }
 
+    /* ✅ Ajustes finos para celular */
     @media (max-width: 480px) {
       h1 { font-size: 1.6rem; }
-      .timer { font-size: 1.7rem; }
-      .subtitle { font-size: 0.9rem; }
+      .timer { font-size: 1.8rem; }
+      .subtitle { font-size: 0.95rem; }
+      .instructions { font-size: 1rem; }
+      .puzzle-container {
+        gap: 6px;
+        padding: 8px;
+      }
+      #play-btn {
+        padding: 14px 36px;
+        font-size: 1.1rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1>🕊️ Profissão Têm Asas</h1>
-    <div class="subtitle">— e voam mais alto juntos</div>
-    <button style="background:#7f8c8d;color:white;border:none;border-radius:50px;padding:8px 20px;font-size:0.95rem;cursor:pointer;margin:12px 0 16px;" onclick="location.href='index.html'">Voltar</button>
+    <h1>💼 Profissão Tem Asas</h1>
+    <div class="subtitle">— e transforma sonho em trajetória</div>
+    <button 
+      style="background:#7f8c8d;color:white;border:none;border-radius:50px;padding:8px 20px;font-size:0.95rem;cursor:pointer;margin:12px 0 16px;"
+      onclick="location.href='index.html'"
+    >
+      ← Voltar
+    </button>
   </div>
 
   <div class="timer" id="timer">08:00</div>
 
   <p class="instructions">
-    Toque em uma peça ao lado do espaço vazio para ajudar a imagem a se recompor.<br>
-    <strong>Tempo de voar juntos: 8 minutos</strong>
+    Toque em uma peça ao lado do espaço vazio para reconstruir o caminho.<br>
+    <strong>Tempo para redesenhar sua trajetória: 8 minutos</strong>
   </p>
 
   <div class="puzzle-container" id="puzzle"></div>
@@ -265,7 +283,7 @@
         if (timeLeft <= 0) {
           clearInterval(timer);
           timer = null;
-          showMessage("O tempo suave terminou… Tente um novo voo! 🕊️", "warning");
+          showMessage("O tempo de planejamento acabou… mas o mapa pode ser redesenhado. 🗺️", "warning");
           enablePlayButton("🕊️ Novo voo");
         }
       }, 1000);
@@ -278,7 +296,7 @@
 
     function clearMessage() {
       messageEl.textContent = "";
-      messageEl.className = ""; // remove .show → some suavemente
+      messageEl.className = "";
     }
 
     function enablePlayButton(text) {
@@ -375,18 +393,15 @@
       if (won && board[PIECES - 1] === null) {
         clearInterval(timer);
         timer = null;
-        // ✅ SÓ MOSTRA MENSAGEM OTIMISTA SE GANHAR
-        showMessage("Quem ama o que faz, nunca trabalha — só voa.🌤️", "success");
+        showMessage("Profissão é o mapa que a gente desenha com as mãos — e reescreve quantas vezes for preciso. 🧭", "success");
         enablePlayButton("🕊️ Novo voo");
       }
     }
 
     playBtn.addEventListener('click', () => {
-      // 🔒 BLOQUEIA O BOTÃO IMEDIATAMENTE AO CLICAR
       disablePlayButton("🕊️ Em voo...");
-      clearMessage(); // ✅ Limpa qualquer mensagem anterior
+      clearMessage();
 
-      // Embaralha e inicia após breve delay (pra feedback visual)
       setTimeout(() => {
         shufflePuzzle();
         renderBoard();
@@ -394,7 +409,6 @@
       }, 100);
     });
 
-    // Inicializa
     initBoard();
     renderBoard();
     updateTimer();
